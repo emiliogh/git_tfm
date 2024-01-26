@@ -48,7 +48,7 @@ pipeline {
 					    sshTransfer(
 						cleanRemote:false,
 						execCommand:'ansible-playbook docker.yaml --limit nodo_prueba',
-						execTimeout:120000
+						execTimeout:200000
 						)
 					],
 					usePromotionTimestamp: false,
@@ -68,7 +68,7 @@ pipeline {
 					    sshTransfer(
 						cleanRemote:false,
 						execCommand:'ansible-playbook deploy_compose.yml --limit nodo_prueba',
-						execTimeout:120000
+						execTimeout:300000
 						)
 					],
 					usePromotionTimestamp: false,

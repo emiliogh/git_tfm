@@ -3,9 +3,16 @@ pipeline {
         label 'agente-ansible'
     }
     stages {
+		// etapa 1: Origen del código de la aplicación a desplegar
         stage('Source') {
             steps {
                 git 'https://github.com/emiliogh/git_tfm.git'
+            }
+        }
+		// etapa 2 : Pruebas unitarias
+        stage ('Ejecutar pruebas unitarias'){
+            steps {
+                sh 'cd src && ./vendor/bin/phpunit tests'
             }
         }
         stage('Validar conexión ansible') {

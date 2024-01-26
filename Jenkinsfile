@@ -68,7 +68,7 @@ pipeline {
 					    sshTransfer(
 						cleanRemote:false,
 						execCommand:'ansible-playbook deploy_compose.yml --limit nodo_prueba',
-						execTimeout:15000000
+						execTimeout:0
 						)
 					],
 					usePromotionTimestamp: false,

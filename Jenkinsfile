@@ -27,7 +27,7 @@ pipeline {
 					transfers: [
 					    sshTransfer(
 						cleanRemote:false,
-						execCommand:'ansible-playbook playbook_ping.yml --limit nodo_prueba',
+						execCommand:'ansible-playbook playbook_ping.yml --limit host',
 						execTimeout:120000
 						)
 					],
@@ -47,7 +47,7 @@ pipeline {
 					transfers: [
 					    sshTransfer(
 						cleanRemote:false,
-						execCommand:'ansible-playbook docker.yaml --limit nodo_prueba',
+						execCommand:'ansible-playbook docker.yaml --limit host',
 						execTimeout:200000
 						)
 					],
@@ -67,7 +67,7 @@ pipeline {
 					transfers: [
 					    sshTransfer(
 						cleanRemote:false,
-						execCommand:'ansible-playbook deploy_compose.yml --limit nodo_prueba',
+						execCommand:'ansible-playbook deploy_compose.yml --limit host',
 						execTimeout:0
 						)
 					],

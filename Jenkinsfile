@@ -6,12 +6,14 @@ pipeline {
 		// etapa 1: Origen del código de la aplicación a desplegar
         stage('Source') {
             steps {
+				echo "Origen del código fuente de la aplicación"
                 git 'https://github.com/emiliogh/git_tfm.git'
             }
         }
 		// etapa 2 : Pruebas unitarias
         stage ('Ejecutar pruebas unitarias'){
             steps {
+				echo "Ejecución de pruebas unitarias"
                 sh 'cd src && ./vendor/bin/phpunit tests'
             }
         }
@@ -35,6 +37,7 @@ pipeline {
 				])
             }
         }
+		// etapa 4: Aprovisionamiento de nodo con docker
 		stage('Aprovisionamiento de host con Docker') {
             steps {
                 echo "instalación de Docker en el host"
@@ -45,6 +48,26 @@ pipeline {
 					    sshTransfer(
 						cleanRemote:false,
 						execCommand:'ansible-playbook docker.yaml --limit nodo_prueba',
+						execTimeout:120000
+						)
+					],
+					usePromotionTimestamp: false,
+					useWorkspaceInPromotion: false,
+					verbose: false)
+				])
+            }
+        }
+		// etapa 5: Despliegue mediante docker compose
+		stage('Despliegue de la aplicación en docker') {
+            steps {
+                echo "Despliegue de la aplicación mediante docker compose"
+				sshPublisher(publishers:
+				[sshPublisherDesc(
+				    configName:'AnsibleController',
+					transfers: [
+					    sshTransfer(
+						cleanRemote:false,
+						execCommand:'ansible-playbook deploy_compose.yml --limit nodo_prueba',
 						execTimeout:120000
 						)
 					],

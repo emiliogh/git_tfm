@@ -1,29 +1,28 @@
 <?php declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 
-final class MultipleDependenciesTest extends TestCase
+final class EmailTest extends TestCase
 {
-    public function testProducerFirst(): string
+    public function testCanBeCreatedFromValidEmailAddress(): void
     {
-        $this->assertTrue(true);
-
-        return 'first';
+        $this->assertInstanceOf(
+            Email::class,
+            Email::fromString('user@example.com')
+        );
     }
 
-    public function testProducerSecond(): string
+    public function testCannotBeCreatedFromInvalidEmailAddress(): void
     {
-        $this->assertTrue(true);
+        $this->expectException(InvalidArgumentException::class);
 
-        return 'second';
+        Email::fromString('invalid');
     }
 
-    /**
-     * @depends testProducerFirst
-     * @depends testProducerSecond
-     */
-    public function testConsumer(string $a, string $b): void
+    public function testCanBeUsedAsString(): void
     {
-        $this->assertSame('first', $a);
-        $this->assertSame('second', $b);
+        $this->assertEquals(
+            'user@example.com',
+            Email::fromString('user@example.com')
+        );
     }
 }

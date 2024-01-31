@@ -24,6 +24,6 @@ final class PruebaTest extends TestCase
     public function testConsumer(string $a, string $b): void
     {
         $this->assertSame('first', $a);
-        $this->assertSame('second', $b);
+        $this->assertSame('second', $d);
     }
 }
